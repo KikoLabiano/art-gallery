@@ -1,0 +1,149 @@
+.imgWrapper {
+  position: relative;
+  height: fit-content;
+  width: 99vw;
+  display: flex;
+  justify-content: center;
+}
+
+.ampliarCuadro {
+  position: absolute;
+  top: 50%;
+  filter: invert(1);
+  font-size: 5rem;
+  cursor: pointer;
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+    transition: opacity 0.5s linear;
+  }
+}
+
+.imagenAutor {
+  float: left;
+  margin-right: 1rem;
+}
+
+.autorWrapper {
+  text-align: justify;
+  overflow: auto;
+}
+
+.cuadro {
+  margin-top: 4rem;
+  cursor: pointer;
+  height: 80vh;
+  object-fit: contain;
+  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.15)));
+}
+
+.article {
+  color: white;
+  // font-family: 'Gelasio';
+  h2 {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  p {
+    padding: 0 0.5rem;
+    text-align: justify;
+  }
+  .autor {
+    &::first-letter {
+      font-weight: bold;
+      font-size: 6rem;
+      margin: 0 0.25rem;
+    }
+  }
+  :global(.link) {
+    color: inherit;
+    font-style: italic;
+  }
+}
+
+.fullImageLabel {
+  color: white;
+}
+
+.fullImage {
+  cursor: grab;
+  user-select: none;
+}
+
+/* img.siguienteCuadro {
+    position: absolute;
+    top: 0;
+    opacity: 0.2;
+    right: -200px;
+    transform: rotate3d(0, 1, 0, 50deg);
+  } */
+
+.autorInfo {
+  margin-top: 4rem;
+  position: relative;
+  height: auto;
+  width: 400px;
+  background-color: black;
+  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.15)));
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0.5s, opacity 0.5s linear;
+}
+
+.cuadroInfo {
+  margin-top: 4rem;
+  position: relative;
+  height: auto;
+  width: 400px;
+  background-color: black;
+  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.15)));
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0.5s, opacity 0.5s linear;
+  animation: fadeIn 0.5s;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 0.5s linear;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  border: 2px solid rgba(255, 62, 0, 0);
+  outline: none;
+  cursor: pointer;
+  position: absolute;
+  height: 100%;
+  width: 4vw;
+  right: 0;
+  top: 0;
+  font-size: 2rem;
+  color: white;
+  z-index: 3;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.103);
+  }
+  // &:focus {
+  //   border: 2px solid #ff3e00;
+  // }
+}
+.anterior {
+  left: 0;
+}
+// @keyframes flip {
+//   0% {
+//     -webkit-transform: rotateY(0);
+//     transform: rotateY(0);
+//     opacity: 0;
+//   }
+//   100% {
+//     -webkit-transform: rotateY(-180deg);
+//     transform: rotateY(-180deg);
+//     opacity: 1;
+//   }
+// }
