@@ -6,17 +6,22 @@
   justify-content: center;
 }
 
-.ampliarCuadro {
+.ampliarCuadro,
+.palette {
   position: absolute;
   top: 50%;
   filter: invert(1);
   font-size: 5rem;
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.4;
   &:hover {
     opacity: 1;
     transition: opacity 0.5s linear;
   }
+}
+
+.palette {
+  pointer-events: none;
 }
 
 .imagenAutor {
@@ -32,9 +37,11 @@
 .cuadro {
   margin-top: 4rem;
   cursor: pointer;
-  height: 80vh;
+  height: fit-content;
+  max-height: 80vh;
   object-fit: contain;
   -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.15)));
+  max-width: 60vw;
 }
 
 .article {

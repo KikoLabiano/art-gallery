@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { fly } from 'svelte/transition';
+  import { fade, fly } from 'svelte/transition';
 
   import Icon from 'svelte-icons-pack/Icon.svelte';
   import FaSolidSearchPlus from 'svelte-icons-pack/fa/FaSolidSearchPlus';
+  import FaSolidPalette from 'svelte-icons-pack/fa/FaSolidPalette';
   import Modal, { getModal } from './_components/Modal.svelte';
 
   import isos from '../assets/cuadros/La-batalla-de-Isos.jpg';
@@ -11,12 +12,14 @@
   import sublevacionContraLaLeyMoises from '../assets/cuadros/Sublevacion-contra-la-ley-de-Moises.jpg';
   import laComidaDeLosCampesinos from '../assets/cuadros/La-comida-de-los-campesinos.jpg';
   import jovenMendigo from '../assets/cuadros/joven-mendigo.jpg';
+  import entreLaSierraNevada from '../assets/cuadros/Entre-Sierra-Nevada.jpg';
 
   import albrechtAltdorfer from '../assets/autores/albrecht-altdorfer.gif';
   import meindertHobbema from '../assets/autores/Meindert-Hobbema.jpg';
   import sandroBotticelli from '../assets/autores/Sandro-Botticelli.jpg';
   import louisLeNain from '../assets/autores/Louis-Le-Nain.jpg';
   import bartolomeEstebanMurillo from '../assets/autores/Esteban-Murillo.jpg';
+  import albertBierstadt from '../assets/autores/Albert-Bierstadt.jpg';
 
   interface IAutor {
     nombre: string;
@@ -165,11 +168,35 @@
       tipo: 'Óleo sobre lienzo',
       tamaño: '1,37m x 1,15m',
       lugarExposicion: 'Museo del Louvre, París'
+    } as ICuadro,
+    {
+      nombre: 'Entre la Sierra Nevada',
+      descripcion: `<i>Entre Sierra Nevada</i> fue creado en Roma en el invierno de 1867-68, cuatro años después del viaje de Bierstadt a Sierra Nevada. 
+        <br/><br/>El cuadro representa montañas escarpadas a la izquierda y al fondo que se extienden hacia un cielo brillante con los rayos del Sol asomando entre las nubes. Las montañas se asoman a un lago tranquilo con un grupo de ciervos y aves acuáticas en su orilla y está bordeado por árboles en la parte derecha del cuadro.
+        <br/><br/>El cuadro se expuso por primera vez en Londres el verano siguiente a su creación, junto con otras dos obras del artista. Luego se expuso en la Real Academia de Berlín, donde obtuvo una medalla de oro, y posteriormente en París, Moscú y San Petersburgo. Bierstadt, un consumado promotor de su propia obra, presumiblemente esperaba aumentar el precio de la misma exponiéndola por toda Europa, colocaba historias en los periódicos y vendía entradas para sus exposiciones, convirtiendo la presentación de su obra en un acontecimiento teatral.`,
+      src: entreLaSierraNevada,
+      autor: {
+        nombre: 'Albert Bierstadt',
+        fechaNacimiento: '7 de enero de 1830',
+        lugarNacimiento: 'Solingen',
+        fechaMuerte: '18 de febrero de 1902',
+        lugarMuerte: 'Nueva York',
+        descripcion: `Albert Bierstadt fue un pintor, famoso por sus grandiosas escenas del Oeste de Estados Unidos.          
+          <br/><br/>Viajó a Alemania en 1853 con intención de ser alumno del conocido pintor Joahann Peter Hasenclever, su pariente lejano. Al llegar se enteró de que Hasenclever había fallecido poco antes. Las grandes dimensiones de sus lienzos caracterizaron especialmente sus trabajos.
+          <br/><br/>En 1859 viajó al oeste con un equipo de topografía, viaje que le sirvió para sus estudios de amplias y majestuosas panorámicas de las Montañas Rocosas. El final de su carrera se vio ensombrecido por el cambio en el gusto estadounidense, había ahora mucho interés en el impresionismo y su obra era considerada excesivamente teatral y pasada de moda. Murió en el más completo olvido.
+          <br/><br/>Su obra, que alcanzó gran popularidad en su época, incluye <a class="link" href="https://es.wikipedia.org/wiki/Las_Monta%C3%B1as_Rocosas,_Lander%27s_Peak_(Albert_Bierstadt)#/media/Archivo:1863_-_bierstadt_landers_peak.jpg" alt="Las Montañas Rocosas" target="_blank">Las Montañas Rocosas</a> (1863 - Museo de arte metropolitano, Nueva York) y <a class="link" href="https://es.wikipedia.org/wiki/Los_%C3%BAltimos_b%C3%BAfalos_(Albert_Bierstadt)#/media/Archivo:The_Last_of_the_Buffalo_by_Albert_Bierstadt,_1888_-_Corcoran_Gallery_of_Art_-_DSC01114.JPG" alt="Los últimos búfalos" target="_blank">Los últimos búfalos</a> (1888 - Galería Nacional de Arte, Washington D.C.)`,
+        imagen: albertBierstadt
+      } as IAutor,
+      año: '1868',
+      tipo: 'Óleo sobre lienzo',
+      tamaño: '1,83m x 3,05m',
+      lugarExposicion: 'Museo Smithsoniano de Arte Americano, Washington D.C.'
     } as ICuadro
   ];
 
   let cuadroActual: number = 0;
   let isInfoCuadroVisible: boolean = false;
+  let isMouseOver: boolean = false;
 
   onMount(() => {
     console.log('LOADED');
@@ -184,10 +211,16 @@
     } else {
       cuadroActual += order;
     }
+    isMouseOver = false;
   };
 
   const toggleInfo = () => {
     isInfoCuadroVisible = !isInfoCuadroVisible;
+    toggleEye();
+  };
+
+  const toggleEye = () => {
+    isMouseOver = !isMouseOver;
   };
 </script>
 
@@ -214,11 +247,23 @@
       out:fly={{ x: -500, duration: 200 }}
       {src}
       on:click={toggleInfo}
+      on:mouseover={toggleEye}
+      on:mouseleave={toggleEye}
       alt=""
     />
     {#if isInfoCuadroVisible}
-      <div class:ampliarCuadro={true} on:click={() => getModal().open()}>
+      <div
+        class:ampliarCuadro={true}
+        on:click={() => getModal().open()}
+        in:fade={{ duration: 300 }}
+        out:fade={{ duration: 200 }}
+      >
         <Icon src={FaSolidSearchPlus} />
+      </div>
+    {/if}
+    {#if isMouseOver && !isInfoCuadroVisible}
+      <div class:palette={true} on:click={toggleInfo} in:fade={{ duration: 300 }} out:fade={{ duration: 200 }}>
+        <Icon src={FaSolidPalette} />
       </div>
     {/if}
     <div class:hidden={!isInfoCuadroVisible} class:cuadroInfo={true}>
