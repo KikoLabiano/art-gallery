@@ -1,9 +1,12 @@
 <script lang="ts">
   import Gallery from './lib/Gallery.svelte';
+  import ThemeContext from './lib/_functions/Contexts/ThemeContext.svelte';
 </script>
 
 <main>
-  <Gallery />
+  <ThemeContext>
+    <Gallery />
+  </ThemeContext>
 </main>
 
 <svelte:head>
@@ -14,12 +17,16 @@
   :root {
     font-family: 'Gelasio', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
       'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: #252525;
+  }
+
+  :global(html) {
+    background-color: var(--theme-background);
+    color: var(--theme-text);
+    transition: background-color 0.5s ease;
   }
 
   main {
     text-align: center;
-    background-color: #252525;
     height: 90vh;
     width: 99vw;
   }

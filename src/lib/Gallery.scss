@@ -35,6 +35,7 @@
 }
 
 .cuadro {
+  border: 1px solid;
   margin-top: 4rem;
   cursor: pointer;
   height: fit-content;
@@ -45,8 +46,6 @@
 }
 
 .article {
-  color: white;
-  // font-family: 'Gelasio';
   h2 {
     font-weight: bold;
     font-size: 1.5rem;
@@ -63,13 +62,9 @@
     }
   }
   :global(.link) {
-    color: inherit;
+    color: var(--theme-text);
     font-style: italic;
   }
-}
-
-.fullImageLabel {
-  color: white;
 }
 
 .fullImage {
@@ -77,36 +72,32 @@
   user-select: none;
 }
 
-/* img.siguienteCuadro {
-    position: absolute;
-    top: 0;
-    opacity: 0.2;
-    right: -200px;
-    transform: rotate3d(0, 1, 0, 50deg);
-  } */
-
 .autorInfo {
+  border: 1px solid;
+  border-right: none;
   margin-top: 4rem;
   position: relative;
   height: auto;
   width: 400px;
-  background-color: black;
+  background-color: var(--theme-infoBgColor);
   -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.15)));
   visibility: visible;
   opacity: 1;
-  transition: visibility 0.5s, opacity 0.5s linear;
+  transition: visibility 0.5s, opacity 0.5s linear, background-color 0.5s linear;
 }
 
 .cuadroInfo {
+  border: 1px solid;
+  border-left: none;
   margin-top: 4rem;
   position: relative;
   height: auto;
   width: 400px;
-  background-color: black;
+  background-color: var(--theme-infoBgColor);
   -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.15)));
   visibility: visible;
   opacity: 1;
-  transition: visibility 0.5s, opacity 0.5s linear;
+  transition: visibility 0.5s, opacity 0.5s linear, background-color 0.5s linear;
   animation: fadeIn 0.5s;
 }
 
@@ -116,7 +107,7 @@
   transition: visibility 0.5s, opacity 0.5s linear;
 }
 
-button {
+.navigationButton {
   font-family: inherit;
   font-size: inherit;
   background-color: transparent;
@@ -129,18 +120,22 @@ button {
   right: 0;
   top: 0;
   font-size: 2rem;
-  color: white;
+  color: var(--theme-text);
   z-index: 3;
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.103);
-  }
-  // &:focus {
-  //   border: 2px solid #ff3e00;
-  // }
 }
+
+:global(.navigationButton:hover) {
+  background-color: var(--theme-navigationButtonsBgHover) !important;
+  transition: background-color 0.5s ease-in-out;
+}
+
 .anterior {
   left: 0;
+}
+.spinner {
+  position: absolute;
+  top: 47%;
+  left: 50%;
 }
 // @keyframes flip {
 //   0% {

@@ -168,10 +168,13 @@
   #modal {
     position: relative;
     border-radius: 6px;
-    background: #252525;
-    border: 2px solid #fff;
     filter: drop-shadow(5px 5px 5px #555);
     padding: 1em;
+  }
+
+  :global(#modal) {
+    background: var(--theme-background);
+    border: 2px solid var(--theme-text);
   }
 
   .visible {
@@ -208,12 +211,12 @@
     height: 10px !important;
   }
 
-  ::-webkit-scrollbar-track {
-    background: #252525;
+  :global(::-webkit-scrollbar-track) {
+    background: var(--theme-background);
   }
 
-  ::-webkit-scrollbar-thumb {
-    background: white;
+  :global(::-webkit-scrollbar-thumb) {
+    background: var(--theme-text);
   }
 
   ::-webkit-scrollbar-thumb:hover {
