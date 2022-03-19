@@ -39,9 +39,8 @@
   };
 
   const panMove = ev => {
-    if (!isPan) return; // Do nothing
+    if (!isPan) return;
     const { x, y } = getXY(ev);
-    console.log(initial.x - x, initial.y - y);
     imageRef.scrollTo(initial.x - x, initial.y - y);
   };
 

@@ -2,9 +2,12 @@
   import { onMount } from 'svelte';
   import { fade, fly } from 'svelte/transition';
 
+  import uniq from 'lodash/uniq';
+
   import Icon from 'svelte-icons-pack/Icon.svelte';
   import FaSolidSearchPlus from 'svelte-icons-pack/fa/FaSolidSearchPlus';
   import FaSolidPalette from 'svelte-icons-pack/fa/FaSolidPalette';
+  import Filters from '../lib/_components/Filters/Filters.svelte';
   import Modal, { getModal } from './_components/Modal/Modal.svelte';
   import Spinner from './_components/Spinner/Spinner.svelte';
   import ThemeButton from './_components/ThemeButton/ThemeButton.svelte';
@@ -52,12 +55,15 @@
   }
 
   let cuadros: ICuadro[] = [];
+  let cuadrosIniciales: ICuadro[] = [];
 
   let cuadroActual: number = 0;
   let isInfoCuadroVisible: boolean = false;
   let isMouseOver: boolean = false;
+  let loading: boolean = false;
 
   onMount(() => {
+    loading = true;
     const albrechtAltdorferAuthor: IAutor = {
       nombre: 'Albrecht Altdorfer',
       nacionalidad: 'Alemania',
@@ -296,6 +302,9 @@
           lugarExposicion: 'Museo del Prado, Madrid'
         } as ICuadro
       ];
+
+      cuadrosIniciales = [...cuadros];
+      loading = false;
     }, 1000);
   });
 
@@ -319,6 +328,7 @@
   const toggleEye = () => {
     isMouseOver = !isMouseOver;
   };
+  console.log({ cuadroActual });
 </script>
 
 <button
@@ -329,6 +339,26 @@
 >
 
 <ThemeButton />
+<Filters
+  autores={uniq(cuadrosIniciales.map(cuadro => cuadro.autor.nombre))}
+  estilos={uniq(cuadrosIniciales.map(cuadro => cuadro.estilo))}
+  on:filter={event => {
+    cuadroActual = 0;
+    cuadros = cuadrosIniciales.filter(cuadro => {
+      if (event.detail.autor !== '' && event.detail.estilo !== '') {
+        return event.detail.autor === cuadro.autor.nombre && event.detail.estilo === cuadro.estilo;
+      } else if (event.detail.autor !== '' && event.detail.estilo === '') {
+        return event.detail.autor === cuadro.autor.nombre;
+      } else if (event.detail.autor === '' && event.detail.estilo !== '') {
+        return event.detail.estilo === cuadro.estilo;
+      }
+    });
+  }}
+  on:deleteFilter={() => {
+    cuadroActual = 0;
+    cuadros = cuadrosIniciales;
+  }}
+/>
 {#if cuadros.length > 0}
   <div class:imgWrapper={true}>
     {#each [cuadros[cuadroActual]] as { src, nombre, descripcion, autor, año, tipo, tamaño, lugarExposicion } (cuadroActual)}
@@ -385,9 +415,14 @@
       <img class:fullImage={true} src={cuadros[cuadroActual].src} alt="" />
     </Modal>
   </div>
-{:else}
+{:else if loading}
   <div class:spinner={true}>
     <Spinner />
+  </div>
+{:else}
+  <div class:sinCuadros={true}>
+    <label>💔</label>
+    <label>No se han encontrado cuadros</label>
   </div>
 {/if}
 <!-- <img class:siguienteCuadro={true} src={cuadros[cuadroActual + 1]} alt="" /> -->

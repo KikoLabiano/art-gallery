@@ -36,7 +36,7 @@
 
 .cuadro {
   border: 1px solid;
-  margin-top: 4rem;
+  margin-top: 3rem;
   cursor: pointer;
   height: fit-content;
   max-height: 80vh;
@@ -75,7 +75,7 @@
 .autorInfo {
   border: 1px solid;
   border-right: none;
-  margin-top: 4rem;
+  margin-top: 3rem;
   position: relative;
   height: auto;
   width: 400px;
@@ -89,7 +89,7 @@
 .cuadroInfo {
   border: 1px solid;
   border-left: none;
-  margin-top: 4rem;
+  margin-top: 3rem;
   position: relative;
   height: auto;
   width: 400px;
@@ -149,3 +149,19 @@
 //     opacity: 1;
 //   }
 // }
+
+.sinCuadros {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+  label:first-child {
+    font-size: 66pt;
+    filter: grayscale(1);
+  }
+  label:nth-child(2) {
+    font-size: 24pt;
+    margin-bottom: 6rem;
+  }
+}

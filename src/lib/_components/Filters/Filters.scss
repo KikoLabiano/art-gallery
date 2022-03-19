@@ -1,0 +1,15 @@
+.filtersWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.filtersButton {
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+  font-size: 24pt;
+  cursor: pointer;
+  margin-right: 1rem;
+  width: 300px;
+}

@@ -5,7 +5,6 @@
   let isDarkMode: boolean = false;
 
   const onToggleTheme = () => {
-    console.log(isDarkMode);
     isDarkMode = !isDarkMode;
     toggle();
   };
