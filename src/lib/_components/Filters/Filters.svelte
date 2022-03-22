@@ -63,9 +63,9 @@
   <div
     class:filtersButton={true}
     on:click={() => {
-      onDeleteFilter();
       placeholderEstilo = 'Estilo';
       placeholderAutor = 'Autor';
+      onDeleteFilter();
     }}
   >
     Borrar

@@ -45,7 +45,12 @@
       <div class:filterWrapper={true}>
         <input class:buscador={true} type="text" placeholder="Buscar..." bind:value={filter} />
         {#if filter !== ''}
-          <span class:deleteFilter={true}>X</span>
+          <span
+            class:deleteFilter={true}
+            on:click={() => {
+              filter = '';
+            }}
+          />
         {/if}
       </div>
       {#each isFiltered ? options : initialOptions as option}

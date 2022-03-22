@@ -42,19 +42,24 @@ summary::-webkit-details-marker {
   position: relative;
 
   .buscador {
-    padding: 0.75rem;
+    padding: 0.75rem 34px 0.75rem 0.75rem;
     border: none;
     background-color: var(--theme-background);
     color: var(--theme-text);
     font-size: 1.25rem;
     font-family: 'Gelasio';
+    width: 100%;
   }
 }
 
-.deleteFilter {
+.deleteFilter:before {
+  position: absolute;
   content: '\00D7';
   font-size: 1.25rem;
   color: var(--theme-text);
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
 }
 
 details[open] summary:before {
