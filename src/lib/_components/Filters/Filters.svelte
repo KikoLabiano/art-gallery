@@ -35,6 +35,7 @@
 
 <div class:filtersWrapper={true}>
   <Dropdown
+    initialOptions={autores}
     label=""
     placeholder={placeholderAutor}
     options={autores}
@@ -43,6 +44,7 @@
     }}
   />
   <Dropdown
+    initialOptions={estilos}
     label=""
     placeholder={placeholderEstilo}
     options={estilos}

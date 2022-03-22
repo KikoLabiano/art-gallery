@@ -21,6 +21,7 @@
   import elBufonDonSebastianDeMorra from '../assets/cuadros/El-Bufon-Don-Sebastian-De-Morra.jpg';
   import elPapaInocencioX from '../assets/cuadros/El-Papa-Inocencio-X.jpg';
   import saturnoDevorandoAHijo from '../assets/cuadros/Saturno-devorando-a-hijo.jpg';
+  import elJardinDeLasDelicias from '../assets/cuadros/El-jardin-de-las-delicias.jpg';
 
   import albrechtAltdorfer from '../assets/autores/albrecht-altdorfer.gif';
   import meindertHobbema from '../assets/autores/Meindert-Hobbema.jpg';
@@ -30,6 +31,7 @@
   import albertBierstadt from '../assets/autores/Albert-Bierstadt.jpg';
   import diegoDeVelazquez from '../assets/autores/Diego-De-Velazquez.jpg';
   import franciscoDeGoya from '../assets/autores/Francisco-De-Goya.jpg';
+  import hieronymusBosch from '../assets/autores/El-bosco.jpg';
 
   interface IAutor {
     nombre: string;
@@ -183,6 +185,20 @@
           <br/><br/>Algunas obras importantes son: <a class="link" href="https://upload.wikimedia.org/wikipedia/commons/4/44/Marchioness_of_la_Solana%2C_Francisco_de_Goya.jpg" alt="Marquesa de La Solana" target="_blank">Marquesa de La Solana</a> (entre 1794 y 1795 - Museo del Louvre, París), <a class="link" href="https://es.wikipedia.org/wiki/La_maja_vestida#/media/Archivo:Maja_vestida_(Prado).jpg" alt="Maja vestida" target="_blank">Maja vestida</a> (1797 - Museo del Prado, Madrid) y <a class="link" href="https://upload.wikimedia.org/wikipedia/commons/b/b8/Majas_en_un_balc%C3%B3n_por_Goya_%28colecci%C3%B3n_particular%29.jpg" alt="Majas en el balcón" target="_blank">Majas en el balcón</a> (1811 - Museo metropolitano, Nueva York)`,
       imagen: franciscoDeGoya
     };
+
+    const elBosco: IAutor = {
+      nombre: 'Hieronymus Bosch (El Bosco)',
+      nacionalidad: 'Países Bajos',
+      fechaNacimiento: 'Hacia 1450',
+      lugarNacimiento: 'Hertogenbosch',
+      fechaMuerte: '1516',
+      lugarMuerte: 'Hertogenbosch',
+      descripcion: `El Bosco (españolización de Hieronymus Bosch) fue un pintor nacido al norte del Ducado de Brabante, en los actuales Países Bajos, autor de una obra excepcional tanto por la extraordinaria inventiva de sus figuraciones y los asuntos tratados como por su técnica..
+          <br/><br/>El Bosco trató con un lenguaje pictórico único y visionario los temas de la iconografía cristiana. Ciertos conceptos morales, como el pecado capital, adquieren en sus obras una representación dramática y muy característica; sus visiones del infierno y de las tentaciones de los santos están dominadas por descripciones de una imaginería extraña y aparentemente irracional, con frecuencia horripilantes.
+          <br/><br/>Algunas obras importantes son: <a class="link" href="https://upload.wikimedia.org/wikipedia/commons/d/da/Bosch_The_marriage-feast_at_Cana_%28Boijmans_Van_Beuningen%29.jpg" alt="Las bodas de Caná" target="_blank">Las bodas de Caná</a> (¿? - Museo Boijmans van Beuningen, Rotterdam), <a class="link" href="https://www.wikiart.org/es/el-bosco/san-juan-en-patmos-1485" alt="San Juan en Patmos" target="_blank">San Juan en Patmos</a> (entre 1490 y 1500 - Gemäldegalerie, SMPK, Berlín) y <a class="link" href="https://www.aciprensa.com/arte/Bosco/hijoprodigo.htm" alt="El hijo pródigo" target="_blank">El hijo pródigo</a> (hacia 1510 - Museo Boijmans van Beuningen, Rotterdam).`,
+      imagen: hieronymusBosch
+    };
+
     setTimeout(() => {
       cuadros = [
         {
@@ -291,14 +307,26 @@
         } as ICuadro,
         {
           nombre: 'Saturno devorando a su hijo',
-          descripcion: `El cuadro Saturno devorando a su hijo es una de las pinturas al óleo sobre revoco que formaron parte de la decoración de los muros de la casa que Francisco de Goya adquirió en 1819, llamada la Quinta del Sordo. Por tanto, la obra pertenece a la serie de las Pinturas negras de dicho artista..
-          <br/><br/>El tema de Saturno está relacionado, según Freud, con la melancolía y la destrucción, y estos rasgos están presentes en las Pinturas negras. Con expresión terrible, Goya nos sitúa ante el horror caníbal de las fauces abiertas, los ojos en blanco, el gigante avejentado y la masa informe del cuerpo sanguinolento del supuesto hijo..`,
+          descripcion: `El cuadro Saturno devorando a su hijo es una de las pinturas al óleo sobre revoco que formaron parte de la decoración de los muros de la casa que Francisco de Goya adquirió en 1819, llamada la Quinta del Sordo. Por tanto, la obra pertenece a la serie de las Pinturas negras de dicho artista.
+          <br/><br/>El tema de Saturno está relacionado, según Freud, con la melancolía y la destrucción, y estos rasgos están presentes en las Pinturas negras. Con expresión terrible, Goya nos sitúa ante el horror caníbal de las fauces abiertas, los ojos en blanco, el gigante avejentado y la masa informe del cuerpo sanguinolento del supuesto hijo.`,
           src: saturnoDevorandoAHijo,
           estilo: 'Romanticismo',
           autor: franciscoGoya,
           año: '1820-1823',
           tipo: 'Óleo sobre revoco',
           tamaño: '1,46m x 0,83m',
+          lugarExposicion: 'Museo del Prado, Madrid'
+        } as ICuadro,
+        {
+          nombre: 'El jardín de las delicias',
+          descripcion: `Este tríptico único es uno de los trabajos más conocidos y también más enigmáticos de El Bosco. Mientras que el paraíso terrenal de la tabla lateral izquierda conserva la iconografía cristiana, la tabla central rompe con esa tradición. Los vicios humanos suscitados por los deseos están representados con gran fantasía y con un toque moralizante y satírico.
+          <br/><br/> Los vicios se reducen casi exclusivamente a los placeres carnales, plasmados en las distintas escenas. En el centro aparece el árbol de la vida, detrás de la marcha triunfal y de la fuente de la eterna juventud. Tampoco el infierno de la tabla lateral derecha responde al estilo tradicional. En el mundo onírico demoníaco no hay indicio alguno de salvación.`,
+          src: elJardinDeLasDelicias,
+          estilo: 'Primitivo flamenco',
+          autor: elBosco,
+          año: 'Hacia 1510',
+          tipo: 'Óleo sobre tabla',
+          tamaño: 'Tabla central: 2,20m x 1,95m, tablas laterales: 2,20m x 0,97m',
           lugarExposicion: 'Museo del Prado, Madrid'
         } as ICuadro
       ];
@@ -328,7 +356,6 @@
   const toggleEye = () => {
     isMouseOver = !isMouseOver;
   };
-  console.log({ cuadroActual });
 </script>
 
 <button
