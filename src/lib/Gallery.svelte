@@ -33,6 +33,9 @@
   import franciscoDeGoya from '../assets/autores/Francisco-De-Goya.jpg';
   import hieronymusBosch from '../assets/autores/El-bosco.jpg';
 
+  import saturnoDevorandoASuHijo from '../assets/sonidos/saturnoDevorandoASuHijo.mp3';
+  import jardinDelEden from '../assets/sonidos/jardinDelEden.mp3';
+
   interface IAutor {
     nombre: string;
     nacionalidad: string;
@@ -54,6 +57,7 @@
     tipo: string;
     tamaño: string;
     lugarExposicion: string;
+    audioSrc?: string;
   }
 
   let cuadros: ICuadro[] = [];
@@ -63,6 +67,10 @@
   let isInfoCuadroVisible: boolean = false;
   let isMouseOver: boolean = false;
   let loading: boolean = false;
+  let showDetail: boolean = false;
+  let detail: string = '';
+  let detailX: number = 0;
+  let detailY: number = 0;
 
   onMount(() => {
     loading = true;
@@ -213,7 +221,8 @@
           año: '1529',
           tipo: 'Óleo sobre tabla',
           tamaño: '1,584m x 1,203m',
-          lugarExposicion: 'Pinacoteca Antigua, Múnich'
+          lugarExposicion: 'Pinacoteca Antigua, Múnich',
+          audioSrc: undefined
         } as ICuadro,
         {
           nombre: 'El camino de Middelharnis',
@@ -225,7 +234,8 @@
           año: '1689',
           tipo: 'Óleo sobre lienzo',
           tamaño: '1,03m x 1,41m',
-          lugarExposicion: 'National Gallery, Londres'
+          lugarExposicion: 'National Gallery, Londres',
+          audioSrc: undefined
         } as ICuadro,
         {
           nombre: 'Sublevación contra la ley de Moisés / Castigo de los rebeldes',
@@ -237,7 +247,8 @@
           año: '1481-1482',
           tipo: 'Fresco',
           tamaño: '3,485m x 5,7m',
-          lugarExposicion: 'Capilla Sixtina, Vaticano'
+          lugarExposicion: 'Capilla Sixtina, Vaticano',
+          audioSrc: undefined
         } as ICuadro,
         {
           nombre: 'La comida de los campesinos',
@@ -249,7 +260,8 @@
           año: '1642',
           tipo: 'Óleo sobre lienzo',
           tamaño: '0,97m x 1,59m',
-          lugarExposicion: 'Museo del Louvre, París'
+          lugarExposicion: 'Museo del Louvre, París',
+          audioSrc: undefined
         } as ICuadro,
         {
           nombre: 'Joven mendigo / Niño espulgándose',
@@ -264,7 +276,8 @@
           año: 'hacia 1650',
           tipo: 'Óleo sobre lienzo',
           tamaño: '1,37m x 1,15m',
-          lugarExposicion: 'Museo del Louvre, París'
+          lugarExposicion: 'Museo del Louvre, París',
+          audioSrc: undefined
         } as ICuadro,
         {
           nombre: 'Entre la Sierra Nevada',
@@ -277,7 +290,8 @@
           año: '1868',
           tipo: 'Óleo sobre lienzo',
           tamaño: '1,83m x 3,05m',
-          lugarExposicion: 'Museo Smithsoniano de Arte Americano, Washington D.C.'
+          lugarExposicion: 'Museo Smithsoniano de Arte Americano, Washington D.C.',
+          audioSrc: undefined
         } as ICuadro,
         {
           nombre: 'El bufón don Sebastián de Morra',
@@ -290,7 +304,8 @@
           año: '1644',
           tipo: 'Óleo sobre lienzo',
           tamaño: '1,06m x 0,81m',
-          lugarExposicion: 'Museo del Prado, Madrid'
+          lugarExposicion: 'Museo del Prado, Madrid',
+          audioSrc: undefined
         } as ICuadro,
         {
           nombre: 'El Papa Inocencio X',
@@ -303,7 +318,8 @@
           año: '1650',
           tipo: 'Óleo sobre lienzo',
           tamaño: '1,40m x 1,20m',
-          lugarExposicion: 'Galería Doria Pamphilii, Roma'
+          lugarExposicion: 'Galería Doria Pamphilii, Roma',
+          audioSrc: undefined
         } as ICuadro,
         {
           nombre: 'Saturno devorando a su hijo',
@@ -315,7 +331,8 @@
           año: '1820-1823',
           tipo: 'Óleo sobre revoco',
           tamaño: '1,46m x 0,83m',
-          lugarExposicion: 'Museo del Prado, Madrid'
+          lugarExposicion: 'Museo del Prado, Madrid',
+          audioSrc: saturnoDevorandoASuHijo
         } as ICuadro,
         {
           nombre: 'El jardín de las delicias',
@@ -327,7 +344,8 @@
           año: 'Hacia 1510',
           tipo: 'Óleo sobre tabla',
           tamaño: 'Tabla central: 2,20m x 1,95m, tablas laterales: 2,20m x 0,97m',
-          lugarExposicion: 'Museo del Prado, Madrid'
+          lugarExposicion: 'Museo del Prado, Madrid',
+          audioSrc: jardinDelEden
         } as ICuadro
       ];
 
@@ -388,7 +406,7 @@
 />
 {#if cuadros.length > 0}
   <div class:imgWrapper={true}>
-    {#each [cuadros[cuadroActual]] as { src, nombre, descripcion, autor, año, tipo, tamaño, lugarExposicion } (cuadroActual)}
+    {#each [cuadros[cuadroActual]] as { src, nombre, descripcion, autor, año, tipo, tamaño, lugarExposicion, audioSrc } (cuadroActual)}
       <div class:hidden={!isInfoCuadroVisible} class:autorInfo={true}>
         <article class:article={true}>
           <h2>{autor.nombre}</h2>
@@ -428,6 +446,7 @@
           <Icon src={FaSolidPalette} />
         </div>
       {/if}
+
       <div class:hidden={!isInfoCuadroVisible} class:cuadroInfo={true}>
         <article class:article={true}>
           <h2>{`${nombre} (${año})`}</h2>
@@ -435,11 +454,68 @@
           <h5>{lugarExposicion}</h5>
           <p>{@html descripcion}</p>
         </article>
+        {#if audioSrc}
+          <audio src={audioSrc} controls preload="auto" />
+        {/if}
       </div>
     {/each}
     <Modal>
       <h1 class:fullImageLabel={true}>{cuadros[cuadroActual].nombre}</h1>
-      <img class:fullImage={true} src={cuadros[cuadroActual].src} alt="" />
+      <div class:fullImageWrapper={true}>
+        <img class:fullImage={true} src={cuadros[cuadroActual].src} alt="" />
+        <!-- <svg class:fullImageSVG={true} version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <rect
+            class:hoverable={true}
+            x="1350"
+            y="0"
+            width="1100"
+            height="800"
+            on:mouseenter={e => {
+              showDetail = true;
+              console.log(e.x, e.y);
+              detailX = e.x;
+              detailY = e.y;
+              detail = 'EEEE';
+            }}
+            on:mouseleave={() => {
+              // showDetail = false;
+              detail = '';
+            }}
+          />
+        </svg>
+        {#if showDetail}
+          <div class:fullImageDetailInfo={true} style="left: {detailX - 150}px; top: {detailY - 50}px;">
+            {detail}
+          </div>
+        {/if} -->
+      </div>
+      <!-- <map name="workmap">
+        <area
+          class:detail={true}
+          shape="rect"
+          coords="1350,0,2420,755"
+          alt="Computer"
+          on:mouseenter={() => {
+            alert('COMPUTER');
+          }}
+        />
+        <area
+          shape="rect"
+          coords="290,172,333,250"
+          alt="Phone"
+          on:mouseenter={() => {
+            alert('PHONE');
+          }}
+        />
+        <area
+          shape="circle"
+          coords="337,300,44"
+          alt="Cup of coffee"
+          on:mouseenter={() => {
+            alert('COFFEE');
+          }}
+        />
+      </map> -->
     </Modal>
   </div>
 {:else if loading}

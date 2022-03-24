@@ -7,7 +7,8 @@ export const presets = [
       themeButton: '#252525',
       themeButtonBoxShadow: `rgb(37, 37, 37) 0px -23px 0px, rgb(37, 37, 37) 0px 23px 0px, rgb(37, 37, 37) 23px 0px 0px,rgb(37, 37, 37) -23px 0px 0px, rgb(37, 37, 37) 15px 15px 0px, rgb(37, 37, 37) -15px 15px 0px,rgb(37, 37, 37) 15px -15px 0px, rgb(37, 37, 37) -15px -15px 0px`,
       navigationButtonsBgHover: 'rgba(0, 0, 0, 0.103)',
-      infoBgColor: '##f9f9f9'
+      infoBgColor: '#f9f9f9',
+      audioBgColor: '#fff'
     }
   },
   {
@@ -18,7 +19,8 @@ export const presets = [
       themeButton: '#fff',
       themeButtonBoxShadow: `rgb(37, 37, 37) 0px -23px 0px, rgb(37, 37, 37) 0px 23px 0px, rgb(37, 37, 37) 23px 0px 0px,rgb(37, 37, 37) -23px 0px 0px, rgb(37, 37, 37) 15px 15px 0px, rgb(37, 37, 37) -15px 15px 0px,rgb(37, 37, 37) 15px -15px 0px, rgb(37, 37, 37) -15px -15px 0px`,
       navigationButtonsBgHover: 'rgba(255, 255, 255, 0.103)',
-      infoBgColor: 'black'
+      infoBgColor: 'black',
+      audioBgColor: '#fff'
     }
   }
 ];
