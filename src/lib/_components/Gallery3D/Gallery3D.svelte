@@ -1,46 +1,48 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+
   import * as THREE from 'three';
   import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+  // import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
+  import { Sky } from 'three/examples/jsm/objects/Sky.js';
 
   export let cuadro: string;
 
-  const SCREEN_WIDTH = window.innerWidth;
-  const SCREEN_HEIGHT = window.innerHeight;
+  const SCREEN_WIDTH = window.innerWidth - 225;
+  const SCREEN_HEIGHT = window.innerHeight - 100;
 
   let container;
 
-  let camera, controls, scene, scene2, renderer;
+  let camera, controls, scene, renderer;
 
-  let mouseX = 0,
-    mouseY = 0,
-    mouseZ = 0;
+  // let groundMirror;
+  let sky, sun;
+  let texturePainting;
 
-  const windowHalfX = window.innerWidth / 2;
-  const windowHalfY = window.innerHeight / 2;
+  console.log(cuadro);
 
   onMount(() => {
     init();
     animate();
   });
 
+  $: if (cuadro) {
+    console.log(cuadro, texturePainting, renderer);
+    if (renderer) renderer.clear();
+    // render();
+  }
+
   const init = () => {
-    camera = new THREE.PerspectiveCamera(35, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 5000);
-    camera.position.z = 1500;
+    camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 2000000);
+    camera.position.z = 6000;
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
-    // scene.fog = new THREE.Fog(0x000000, 1500, 4000);
-
-    // scene2 = new THREE.Scene();
-    // scene2.background = new THREE.Color(0x000000);
-    // scene2.fog = new THREE.Fog(0x000000, 5000, 2000);
-
-    // GROUND
 
     const imageCanvas = document.createElement('canvas');
     const context = imageCanvas.getContext('2d');
 
+    imageCanvas.style.marginLeft = 'auto';
+    imageCanvas.style.marginRight = 'auto';
     imageCanvas.width = imageCanvas.height = 128;
 
     context.fillStyle = '#444';
@@ -51,7 +53,7 @@
     context.fillRect(64, 64, 64, 64);
 
     const textureCanvas = new THREE.CanvasTexture(imageCanvas);
-    textureCanvas.repeat.set(1000, 1000);
+    textureCanvas.repeat.set(100, 100);
     textureCanvas.wrapS = THREE.RepeatWrapping;
     textureCanvas.wrapT = THREE.RepeatWrapping;
 
@@ -59,7 +61,7 @@
     textureCanvas2.magFilter = THREE.NearestFilter;
     textureCanvas2.minFilter = THREE.NearestFilter;
 
-    const materialCanvas = new THREE.MeshBasicMaterial({ map: textureCanvas });
+    const materialCanvas = new THREE.MeshBasicMaterial({ map: textureCanvas, color: 0xffffff, reflectivity: 0.5 });
     // const materialCanvas2 = new THREE.MeshBasicMaterial({ color: 0xffccaa, map: textureCanvas2 });
 
     const geometry = new THREE.PlaneGeometry(100, 100);
@@ -69,6 +71,7 @@
     meshCanvas.scale.set(1000, 1000, 1000);
 
     // const meshCanvas2 = new THREE.Mesh(geometry, materialCanvas2);
+
     // meshCanvas2.rotation.x = -Math.PI / 2;
     // meshCanvas2.scale.set(1000, 1000, 1000);
 
@@ -85,7 +88,21 @@
 
       const geometry = new THREE.PlaneGeometry(100, 100);
       const mesh = new THREE.Mesh(geometry, materialPainting);
+      mesh.material.needsUpdate = true;
+      mesh.castShadow = true;
+
       // const mesh2 = new THREE.Mesh(geometry, materialPainting2);
+
+      // const groundGeometry = new THREE.PlaneGeometry(image.width + 100, 3000);
+      // groundMirror = new Reflector(groundGeometry, {
+      //   clipBias: 0.003,
+      //   textureWidth: window.innerWidth * window.devicePixelRatio,
+      //   textureHeight: window.innerHeight * window.devicePixelRatio,
+      //   color: 0x777777
+      // });
+      // groundMirror.position.y = -image.height / 2;
+      // groundMirror.rotateX(-Math.PI / 2);
+      // scene.add(groundMirror);
 
       // addPainting(scene2, mesh2);
 
@@ -103,7 +120,11 @@
 
         const meshShadow = new THREE.Mesh(
           geometry,
-          new THREE.MeshBasicMaterial({ color: 0x000000, opacity: 0.75, transparent: false })
+          new THREE.MeshBasicMaterial({
+            color: 0x000000,
+            opacity: 0.75,
+            transparent: false
+          })
         );
         meshShadow.position.y = (-1.1 * image.height) / 2;
         meshShadow.position.z = (-1.1 * image.height) / 2;
@@ -112,52 +133,91 @@
         meshShadow.scale.y = (1.1 * image.height) / 100;
         zscene.add(meshShadow);
 
-        // const floorHeight = -3.117 * image.height;
-        meshCanvas.position.y = -image.height;
+        console.log(image.height);
+        meshCanvas.position.y = -image.height / 2;
       };
       addPainting(scene, mesh);
     };
 
-    const texturePainting = new THREE.TextureLoader().load(cuadro, callbackPainting);
-    // const texturePainting2 = new THREE.Texture();
-    const materialPainting = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texturePainting });
-    // const materialPainting2 = new THREE.MeshBasicMaterial({ color: 0xffccaa, map: texturePainting2 });
+    texturePainting = new THREE.TextureLoader().load(cuadro, callbackPainting);
 
-    // texturePainting2.minFilter = texturePainting2.magFilter = THREE.NearestFilter;
+    const materialPainting = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texturePainting });
+
     texturePainting.minFilter = texturePainting.magFilter = THREE.LinearFilter;
     texturePainting.mapping = THREE.UVMapping;
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     renderer.autoClear = false;
 
-    renderer.domElement.style.position = 'relative';
     container.appendChild(renderer.domElement);
 
-    console.log(renderer);
     controls = new OrbitControls(camera, renderer.domElement);
     controls.listenToKeyEvents(window); // optional
-
-    //controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
 
     controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
     controls.dampingFactor = 0.05;
 
-    controls.screenSpacePanning = false;
+    controls.screenSpacePanning = true;
 
     controls.minDistance = 500;
-    controls.maxDistance = 3000;
+    controls.maxDistance = 9500;
 
-    controls.maxPolarAngle = Math.PI / 2;
+    controls.maxPolarAngle = Math.PI;
 
-    document.addEventListener('mousemove', onDocumentMouseMove);
+    // Add Sky
+    sky = new Sky();
+    sky.scale.setScalar(450000);
+    scene.add(sky);
+
+    sun = new THREE.Vector3();
+
+    const effectController = {
+      turbidity: 2,
+      rayleigh: 3,
+      mieCoefficient: 0.005,
+      mieDirectionalG: 0.7,
+      elevation: 2.8,
+      azimuth: 0,
+      exposure: renderer.toneMappingExposure
+    };
+
+    const uniforms = sky.material.uniforms;
+    uniforms['turbidity'].value = effectController.turbidity;
+    uniforms['rayleigh'].value = effectController.rayleigh;
+    uniforms['mieCoefficient'].value = effectController.mieCoefficient;
+    uniforms['mieDirectionalG'].value = effectController.mieDirectionalG;
+
+    const phi = THREE.MathUtils.degToRad(90 - effectController.elevation);
+    const theta = THREE.MathUtils.degToRad(effectController.azimuth);
+
+    sun.setFromSphericalCoords(1, phi, theta);
+
+    uniforms['sunPosition'].value.copy(sun);
+
+    renderer.toneMappingExposure = effectController.exposure;
+
+    // const light = new THREE.DirectionalLight(0xffffff, 1, 10000);
+    // light.position.set(0, 1, 1); //default; light shining from top
+    // light.castShadow = true; // default false
+    // scene.add(light);
+
+    // //Set up shadow properties for the light
+    // light.shadow.mapSize.width = 512; // default
+    // light.shadow.mapSize.height = 512; // default
+    // light.shadow.camera.near = 0.5; // default
+    // light.shadow.camera.far = 500; // default
+
+    renderer.render(scene, camera);
+
+    window.addEventListener('resize', onWindowResize, false);
+    renderer.render(scene, camera);
+
+    // document.addEventListener('mousemove', onDocumentMouseMove);
     // document.addEventListener('wheel', onDocumentMouseWheel, { passive: false });
-  };
-
-  const onDocumentMouseMove = event => {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
   };
 
   // const onDocumentMouseWheel = event => {
@@ -165,6 +225,13 @@
   //   camera.position.z += event.deltaY / 500;
   //   // mouseZ = event.wheelDelta;
   // };
+
+  const onWindowResize = () => {
+    camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+  };
 
   const animate = () => {
     requestAnimationFrame(animate);
@@ -192,4 +259,6 @@
   };
 </script>
 
-<div bind:this={container} id="container" />
+<div class:canvasWrapper={true} bind:this={container} id="container" />
+
+<style src="./Gallery3D.scss" type="text/scss"></style>

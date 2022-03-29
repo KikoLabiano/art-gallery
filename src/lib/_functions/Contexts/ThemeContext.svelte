@@ -15,6 +15,7 @@
   setContext('theme', {
     // providing Theme store through context makes store readonly
     theme: Theme,
+    getTheme: () => _current,
     toggle: () => {
       // update internal state
       let _currentIndex = themes.findIndex(h => h.name === _current);

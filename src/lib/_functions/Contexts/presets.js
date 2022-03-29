@@ -8,7 +8,9 @@ export const presets = [
       themeButtonBoxShadow: `rgb(37, 37, 37) 0px -23px 0px, rgb(37, 37, 37) 0px 23px 0px, rgb(37, 37, 37) 23px 0px 0px,rgb(37, 37, 37) -23px 0px 0px, rgb(37, 37, 37) 15px 15px 0px, rgb(37, 37, 37) -15px 15px 0px,rgb(37, 37, 37) 15px -15px 0px, rgb(37, 37, 37) -15px -15px 0px`,
       navigationButtonsBgHover: 'rgba(0, 0, 0, 0.103)',
       infoBgColor: '#f9f9f9',
-      audioBgColor: '#fff'
+      audioBgColor: '#fff',
+      neumorphismBoxShadow: '5px 5px 10px #e0e0e0, -5px -5px 10px #ffffff',
+      neumorphismBoxShadowActive: 'inset 5px 5px 10px #e0e0e0, inset -5px -5px 10px #ffffff'
     }
   },
   {
@@ -20,7 +22,9 @@ export const presets = [
       themeButtonBoxShadow: `rgb(37, 37, 37) 0px -23px 0px, rgb(37, 37, 37) 0px 23px 0px, rgb(37, 37, 37) 23px 0px 0px,rgb(37, 37, 37) -23px 0px 0px, rgb(37, 37, 37) 15px 15px 0px, rgb(37, 37, 37) -15px 15px 0px,rgb(37, 37, 37) 15px -15px 0px, rgb(37, 37, 37) -15px -15px 0px`,
       navigationButtonsBgHover: 'rgba(255, 255, 255, 0.103)',
       infoBgColor: 'black',
-      audioBgColor: '#fff'
+      audioBgColor: '#fff',
+      neumorphismBoxShadow: '5px 5px 10px #181818, -5px -5px 10px #323232',
+      neumorphismBoxShadowActive: 'inset 5px 5px 10px #181818, inset -5px -5px 10px #323232'
     }
   }
 ];
