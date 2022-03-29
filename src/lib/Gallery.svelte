@@ -378,7 +378,9 @@
   };
 
   const toggle3DView = () => {
-    is3DViewVisible = !is3DViewVisible;
+    if (!loading) {
+      is3DViewVisible = !is3DViewVisible;
+    }
   };
 </script>
 
