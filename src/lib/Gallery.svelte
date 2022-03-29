@@ -386,15 +386,15 @@
   <ThemeButton />
   <div class:button3D={true} class:button3DActive={is3DViewVisible} on:click={toggle3DView}>3D</div>
 </div>
-<button
-  class:navigationButton={true}
-  class:anterior={true}
-  disabled={cuadroActual === 0}
-  on:click={() => cambiarCuadro(-1)}>{`<`}</button
->
 {#if is3DViewVisible}
   <Gallery3D cuadro={cuadros[cuadroActual].src} />
 {:else if cuadros.length > 0}
+  <button
+    class:navigationButton={true}
+    class:anterior={true}
+    disabled={cuadroActual === 0}
+    on:click={() => cambiarCuadro(-1)}>{`<`}</button
+  >
   <Filters
     autores={uniq(cuadrosIniciales.map(cuadro => cuadro.autor.nombre))}
     estilos={uniq(cuadrosIniciales.map(cuadro => cuadro.estilo))}
@@ -528,6 +528,9 @@
       </map> -->
     </Modal>
   </div>
+  <button class:navigationButton={true} disabled={cuadroActual === cuadros.length - 1} on:click={() => cambiarCuadro(1)}
+    >></button
+  >
 {:else if loading}
   <div class:spinner={true}>
     <Spinner />
@@ -538,9 +541,6 @@
     <label>No se han encontrado cuadros</label>
   </div>
 {/if}
-<button class:navigationButton={true} disabled={cuadroActual === cuadros.length - 1} on:click={() => cambiarCuadro(1)}
-  >></button
->
 
 <!-- <img class:siguienteCuadro={true} src={cuadros[cuadroActual + 1]} alt="" /> -->
 <style src="./Gallery.scss" type="text/scss"></style>

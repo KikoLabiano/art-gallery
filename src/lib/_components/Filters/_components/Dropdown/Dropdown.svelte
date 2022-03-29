@@ -14,7 +14,6 @@
   const dispatch = createEventDispatcher();
 
   onMount(() => {
-    console.log({ options });
     initialOptions = [...options];
   });
 
@@ -22,7 +21,6 @@
     if (filter !== '') {
       options = initialOptions.filter(option => option.includes(filter));
     }
-    console.log(initialOptions.filter(option => option.includes(filter)));
     isFiltered = filter !== '';
   }
 

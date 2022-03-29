@@ -8,7 +8,7 @@
 
   export let cuadro: string;
 
-  const SCREEN_WIDTH = window.innerWidth - 225;
+  const SCREEN_WIDTH = window.innerWidth;
   const SCREEN_HEIGHT = window.innerHeight - 100;
 
   let container;
@@ -19,18 +19,10 @@
   let sky, sun;
   let texturePainting;
 
-  console.log(cuadro);
-
   onMount(() => {
     init();
     animate();
   });
-
-  $: if (cuadro) {
-    console.log(cuadro, texturePainting, renderer);
-    if (renderer) renderer.clear();
-    // render();
-  }
 
   const init = () => {
     camera = new THREE.PerspectiveCamera(45, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 2000000);
@@ -112,28 +104,27 @@
 
         zscene.add(zmesh);
 
-        const meshFrame = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0x000000 }));
-        meshFrame.position.z = -10.0;
-        meshFrame.scale.x = (1.1 * image.width) / 100;
-        meshFrame.scale.y = (1.1 * image.height) / 100;
-        zscene.add(meshFrame);
+        // const meshFrame = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: 0x000000 }));
+        // meshFrame.position.z = -10.0;
+        // meshFrame.scale.x = (1.1 * image.width) / 100;
+        // meshFrame.scale.y = (1.1 * image.height) / 100;
+        // zscene.add(meshFrame);
 
         const meshShadow = new THREE.Mesh(
           geometry,
           new THREE.MeshBasicMaterial({
             color: 0x000000,
-            opacity: 0.75,
-            transparent: false
+            opacity: 0.5,
+            transparent: true
           })
         );
-        meshShadow.position.y = (-1.1 * image.height) / 2;
-        meshShadow.position.z = (-1.1 * image.height) / 2;
+        meshShadow.position.y = -image.height / 2 + 20;
+        meshShadow.position.z = (-1.5 * image.height) / 2;
         meshShadow.rotation.x = -Math.PI / 2;
-        meshShadow.scale.x = (1.1 * image.width) / 100;
-        meshShadow.scale.y = (1.1 * image.height) / 100;
+        meshShadow.scale.x = (1 * image.width) / 100;
+        meshShadow.scale.y = (1.5 * image.height) / 100;
         zscene.add(meshShadow);
 
-        console.log(image.height);
         meshCanvas.position.y = -image.height / 2;
       };
       addPainting(scene, mesh);
@@ -141,7 +132,11 @@
 
     texturePainting = new THREE.TextureLoader().load(cuadro, callbackPainting);
 
-    const materialPainting = new THREE.MeshBasicMaterial({ color: 0xffffff, map: texturePainting });
+    const materialPainting = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      map: texturePainting,
+      side: THREE.DoubleSide
+    });
 
     texturePainting.minFilter = texturePainting.magFilter = THREE.LinearFilter;
     texturePainting.mapping = THREE.UVMapping;
