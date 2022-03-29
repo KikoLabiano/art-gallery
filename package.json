@@ -23,6 +23,7 @@
     "lodash": "^4.17.21",
     "prettier": "^2.5.1",
     "sass": "^1.49.9",
-    "svelte-icons-pack": "^1.4.6"
+    "svelte-icons-pack": "^1.4.6",
+    "three": "^0.139.0"
   }
 }

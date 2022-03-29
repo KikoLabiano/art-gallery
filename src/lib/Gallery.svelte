@@ -4,6 +4,7 @@
 
   import uniq from 'lodash/uniq';
 
+  import Gallery3D from '../lib/_components/Gallery3D/Gallery3D.svelte';
   import Icon from 'svelte-icons-pack/Icon.svelte';
   import FaSolidSearchPlus from 'svelte-icons-pack/fa/FaSolidSearchPlus';
   import FaSolidPalette from 'svelte-icons-pack/fa/FaSolidPalette';
@@ -71,6 +72,7 @@
   let detail: string = '';
   let detailX: number = 0;
   let detailY: number = 0;
+  let is3DViewVisible: boolean = false;
 
   onMount(() => {
     loading = true;
@@ -374,37 +376,43 @@
   const toggleEye = () => {
     isMouseOver = !isMouseOver;
   };
+
+  const toggle3DView = () => {
+    is3DViewVisible = !is3DViewVisible;
+  };
 </script>
 
-<button
-  class:navigationButton={true}
-  class:anterior={true}
-  disabled={cuadroActual === 0}
-  on:click={() => cambiarCuadro(-1)}>{`<`}</button
->
-
 <ThemeButton />
-<Filters
-  autores={uniq(cuadrosIniciales.map(cuadro => cuadro.autor.nombre))}
-  estilos={uniq(cuadrosIniciales.map(cuadro => cuadro.estilo))}
-  on:filter={event => {
-    cuadroActual = 0;
-    cuadros = cuadrosIniciales.filter(cuadro => {
-      if (event.detail.autor !== '' && event.detail.estilo !== '') {
-        return event.detail.autor === cuadro.autor.nombre && event.detail.estilo === cuadro.estilo;
-      } else if (event.detail.autor !== '' && event.detail.estilo === '') {
-        return event.detail.autor === cuadro.autor.nombre;
-      } else if (event.detail.autor === '' && event.detail.estilo !== '') {
-        return event.detail.estilo === cuadro.estilo;
-      }
-    });
-  }}
-  on:deleteFilter={() => {
-    cuadroActual = 0;
-    cuadros = cuadrosIniciales;
-  }}
-/>
-{#if cuadros.length > 0}
+<button value="3D" on:click={toggle3DView}>3D</button>
+{#if is3DViewVisible}
+  <Gallery3D cuadro={cuadros[cuadroActual].src} />
+{:else if cuadros.length > 0}
+  <button
+    class:navigationButton={true}
+    class:anterior={true}
+    disabled={cuadroActual === 0}
+    on:click={() => cambiarCuadro(-1)}>{`<`}</button
+  >
+  <Filters
+    autores={uniq(cuadrosIniciales.map(cuadro => cuadro.autor.nombre))}
+    estilos={uniq(cuadrosIniciales.map(cuadro => cuadro.estilo))}
+    on:filter={event => {
+      cuadroActual = 0;
+      cuadros = cuadrosIniciales.filter(cuadro => {
+        if (event.detail.autor !== '' && event.detail.estilo !== '') {
+          return event.detail.autor === cuadro.autor.nombre && event.detail.estilo === cuadro.estilo;
+        } else if (event.detail.autor !== '' && event.detail.estilo === '') {
+          return event.detail.autor === cuadro.autor.nombre;
+        } else if (event.detail.autor === '' && event.detail.estilo !== '') {
+          return event.detail.estilo === cuadro.estilo;
+        }
+      });
+    }}
+    on:deleteFilter={() => {
+      cuadroActual = 0;
+      cuadros = cuadrosIniciales;
+    }}
+  />
   <div class:imgWrapper={true}>
     {#each [cuadros[cuadroActual]] as { src, nombre, descripcion, autor, año, tipo, tamaño, lugarExposicion, audioSrc } (cuadroActual)}
       <div class:hidden={!isInfoCuadroVisible} class:autorInfo={true}>
@@ -518,6 +526,9 @@
       </map> -->
     </Modal>
   </div>
+  <button class:navigationButton={true} disabled={cuadroActual === cuadros.length - 1} on:click={() => cambiarCuadro(1)}
+    >></button
+  >
 {:else if loading}
   <div class:spinner={true}>
     <Spinner />
@@ -528,10 +539,6 @@
     <label>No se han encontrado cuadros</label>
   </div>
 {/if}
+
 <!-- <img class:siguienteCuadro={true} src={cuadros[cuadroActual + 1]} alt="" /> -->
-
-<button class:navigationButton={true} disabled={cuadroActual === cuadros.length - 1} on:click={() => cambiarCuadro(1)}
-  >></button
->
-
 <style src="./Gallery.scss" type="text/scss"></style>
